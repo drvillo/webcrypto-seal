@@ -1,0 +1,68 @@
+{
+  "name": "@drvillo/browser-seal-crypto-asymmetric",
+  "version": "0.1.0",
+  "description": "Dual-runtime asymmetric sealed-box crypto primitives (browser + Node ≥20) — encryption scheme only",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./wire": {
+      "import": "./dist/wire.js",
+      "types": "./dist/wire.d.ts"
+    },
+    "./argon2-worker": {
+      "import": "./dist/argon2-worker/client.js",
+      "types": "./dist/argon2-worker/client.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "SECURITY.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "pnpm run test:unit && pnpm run test:browser",
+    "test:unit": "vitest run",
+    "test:browser": "vitest run --config vitest.browser.config.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run typecheck && pnpm run test:unit && pnpm run build",
+    "publish:npm": "npm publish"
+  },
+  "keywords": [
+    "crypto",
+    "sealed-box",
+    "x25519",
+    "aes-gcm",
+    "argon2",
+    "browser",
+    "node"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@noble/hashes": "^2.0.1",
+    "libsodium-wrappers": "0.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/browser-playwright": "^4.0.18",
+    "happy-dom": "^20.4.0",
+    "jsdom": "^27.4.0",
+    "playwright": "^1.58.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.18"
+  }
+}
