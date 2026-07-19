@@ -1,12 +1,11 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: [
-    'src/index.ts',
-    'src/wire.ts',
-    'src/argon2-worker/client.ts',
-    'src/argon2-worker/worker.ts',
-  ],
+  entry: {
+    index: 'src/index.ts',
+    wire: 'src/wire.ts',
+    'argon2-worker/client': 'src/argon2-worker/client.ts',
+  },
   format: ['esm'],
   dts: true,
   splitting: false,

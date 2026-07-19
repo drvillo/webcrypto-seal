@@ -31,7 +31,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsup --config tsup.worker.config.ts",
     "dev": "tsup --watch",
     "test": "pnpm run test:unit && pnpm run test:browser",
     "test:unit": "vitest run",
