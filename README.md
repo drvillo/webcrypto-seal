@@ -1,6 +1,6 @@
 # @drvillo/webcrypto-seal
 
-Encryption-scheme primitives for asymmetric sealed-box crypto (X25519 sealed box, Argon2id KDF, AES-GCM, contextual seals). Cryptographic layer for [1bridge.xyz](https://1bridge.xyz). **Not** a product SDK — no vault, document-request, share, OTP, session, or signing concepts live here; those belong in 1bridge application code.
+Encryption-scheme primitives for asymmetric sealed-box crypto (X25519 sealed box, Argon2id KDF, AES-GCM, contextual seals). 
 
 ## Install
 
@@ -13,17 +13,23 @@ Requires **Node ≥20** (global Web Crypto + `btoa`/`atob`). Same APIs are used 
 
 ## Runtime support
 
-This library is the cryptographic layer for [1bridge.xyz](https://1bridge.xyz). It targets **browser and Node ≥20** as first-class consumers via Web Crypto and standard base64 APIs. Offline Node / CLI tools that seal and open 1Bridge-compatible ciphertext are an intended use case.
+This library is the cryptographic layer for [1bridge.xyz](https://1bridge.xyz). It targets **browser and Node ≥20** as first-class consumers via Web Crypto and standard base64 APIs.   
+  
+Allows developing offline Node / CLI tools that seal and open 1Bridge-compatible ciphertext.
 
-| Entry | Runtime | Notes |
-|-------|---------|-------|
-| `@drvillo/webcrypto-seal` | Browser + Node ≥20 | Full scheme (lazy-loads libsodium WASM for seal/open) |
-| `@drvillo/webcrypto-seal/wire` | Browser + Node ≥20 | **Parse-only**, WASM-free envelope helpers for server / SSR |
-| `@drvillo/webcrypto-seal/argon2-worker` | Browser only | Optional Argon2id Web Worker client |
+
+| Entry                                   | Runtime            | Notes                                                       |
+| --------------------------------------- | ------------------ | ----------------------------------------------------------- |
+| `@drvillo/webcrypto-seal`               | Browser + Node ≥20 | Full scheme (lazy-loads libsodium WASM for seal/open)       |
+| `@drvillo/webcrypto-seal/wire`          | Browser + Node ≥20 | **Parse-only**, WASM-free envelope helpers for server / SSR |
+| `@drvillo/webcrypto-seal/argon2-worker` | Browser only       | Optional Argon2id Web Worker client                         |
+
 
 - **Seal/open under Node:** libsodium WASM works headless in Node ≥20 (no browser DOM required). Offline tools can round-trip contextual seals without a window.
 - **Seal/open in the browser:** CSP must allow `'wasm-unsafe-eval'` (not broad `'unsafe-eval'`). Prefer the WASM-free `./wire` subpath on the server / SSR so Node never loads sodium.
 - Server / SSR code that only validates envelopes should import from `./wire` only.
+
+
 
 ## Quick start
 
@@ -79,11 +85,15 @@ Prefer contextual seal APIs (`sealContextualKey` / `openContextualKey` / `encryp
 
 ## Export map
 
-| Subpath | What it exports |
-|---------|-----------------|
+
+| Subpath           | What it exports                                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | `.` (root barrel) | Full scheme: KDF, hierarchical derive, AES-GCM, sealed box, contextual seal, file envelope, encodings, errors |
-| `./argon2-worker` | `deriveMasterKeyInWorker`, `terminateArgon2Worker` (browser only) |
-| `./wire` | Parse/format helpers only (`parseSealedKey`, `formatPublicKey`, …) — **no WASM** |
+| `./argon2-worker` | `deriveMasterKeyInWorker`, `terminateArgon2Worker` (browser only)                                             |
+| `./wire`          | Parse/format helpers only (`parseSealedKey`, `formatPublicKey`, …) — **no WASM**                              |
+
+
+
 
 ## Contextual `kind` (caller-supplied)
 
@@ -100,21 +110,27 @@ Any other stable string works for offline tools; mismatch on open throws `CONTEX
 
 These byte values are **immutable** — changing them breaks existing ciphertext:
 
-| Lock | Value / rule |
-|------|----------------|
-| Hierarchical HKDF info | UTF-8 `1bridge-vault-kek-v1` |
-| Verifier plaintext | UTF-8 `1bridge-vault-verifier-v1` |
-| Secret-wrap HKDF info | UTF-8 `lsk-wrap` |
-| Contextual JSON field | Wire field is **`vaultId`** even when TypeScript params use `scopeId` |
-| Public key prefix | `v3.x25519.` |
-| Sealed key prefix | `v3.sb1.` |
-| Encrypted private key prefix | `v3.a256gcm.` |
+
+| Lock                         | Value / rule                                                      |
+| ---------------------------- | ----------------------------------------------------------------- |
+| Hierarchical HKDF info       | UTF-8 `1bridge-vault-kek-v1`                                      |
+| Verifier plaintext           | UTF-8 `1bridge-vault-verifier-v1`                                 |
+| Secret-wrap HKDF info        | UTF-8 `lsk-wrap`                                                  |
+| Contextual JSON field        | Wire field is `vaultId` even when TypeScript params use `scopeId` |
+| Public key prefix            | `v3.x25519.`                                                      |
+| Sealed key prefix            | `v3.sb1.`                                                         |
+| Encrypted private key prefix | `v3.a256gcm.`                                                     |
+
+
+
 
 ### Three frozen encodings
 
 1. **Canonical base64url** — sealed-box / public-key / encrypted-private-key envelope payloads
 2. **Standard base64** (8192-byte chunking) — unlock verifier packing
 3. **Lowercase hex SHA-256** — ciphertext checksums (`computeChecksum`)
+
+
 
 ## Argon2 worker (browser)
 
@@ -153,17 +169,6 @@ node examples/offline-node-seal.mjs
 ```
 
 The script imports the built package, seals a contextual key, opens it successfully, catches `CONTEXT_MISMATCH` on a wrong `vaultId`/`scopeId`, runs verifier round-trip, and prints a checksum. It does not call any network APIs.
-
-## Non-goals
-
-This package deliberately does **not** include:
-
-- Vaults, document requests, share links, signing workflows, or Inbox concepts
-- OTP / token pepper / session secrets / vendor-secret string formatting
-- Authentication, authorization, Prisma, Supabase, or storage orchestration
-- Product unlock / rotation / migration UI flows
-
-Those belong in the consuming application. See [SECURITY.md](./SECURITY.md) for threat boundaries.
 
 ## License
 

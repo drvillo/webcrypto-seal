@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # Application/runtime + dev dependencies. Security updates are always opened
+  # regardless of the schedule below; the schedule governs version bumps.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    groups:
+      # Batch low-risk dev tooling bumps into a single PR to cut review noise.
+      dev-tooling:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+    # Crypto deps are pinned exact on purpose; still allow Dependabot to propose
+    # bumps (reviewed manually) but keep them out of the batched dev group.
+    labels:
+      - dependencies
+
+  # Keep pinned GitHub Actions SHAs current (they are pinned to commit SHAs in
+  # the workflows; this updater rewrites the SHA + trailing version comment).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions

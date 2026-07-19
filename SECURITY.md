@@ -1,24 +1,28 @@
 # Security
 
-This package is an **encryption-scheme library** only. Product concepts (auth, sessions, authorization, vaults, document requests, share links, signing workflows, OTP) belong in consumers — not in this package.
+This package is an encryption-scheme library. Product concepts (auth, sessions, authorization, vaults, document requests, share links, signing workflows, OTP) belong in consumers.
 
 **Trust boundary:** the package provides cryptographic scheme primitives (KDF, hierarchical derive, sealed box, AES-GCM, wire encode/decode). **Authorization and access control are entirely the consumer's responsibility.** Correct seal/open does not imply the caller is allowed to perform the operation.
 
-## Threat boundaries (ASVS-aligned)
+## Threat boundaries (From OWASP ASVS)
 
-| Threat | ASVS theme | Mitigation |
-|--------|------------|------------|
-| **API misuse** (e.g. sealing raw key material without contextual binding) | V5 Input / V9 Crypto | Prefer contextual seal APIs (`sealContextualKey` / `openContextualKey`); treat low-level `sealBytes` as advanced; fail closed on wire parse |
-| **Key material logging / stringification** | V8 Data protection | No console logging of secrets in package code; export wipe helpers (`zeroSensitiveBytes`); never put key bytes in thrown messages |
-| **Wire-format confusion / prefix stripping** | V5 Input validation | Strict prefix + keyId + canonical encoding checks; fail closed on invalid envelopes; contextual open fails with `CONTEXT_MISMATCH` on scope/resource/kind drift |
-| **Argon2 parameter handling / downgrade** | V2 Auth / V9 Crypto | Export strong `DEFAULT_KDF_PARAMS`; callers must **persist and reuse stored params** for verify — never invent weaker client-side params for unlock |
-| **Supply-chain confusion** | V14 Config | Locked npm name `@drvillo/webcrypto-seal`; public MIT repo; **pin exact versions** in consumers (e.g. `"0.1.0"`); `prepublishOnly` gates typecheck/test/build; no download postinstall hooks |
-| **WASM / CSP blocking** | V14 Config | Root entry lazy-loads `libsodium-wrappers` WASM. Browser consumers that seal/open need CSP `'wasm-unsafe-eval'` (not broad `'unsafe-eval'`). Prefer `./wire` on the server to avoid WASM entirely |
-| **Timing on verifier compare** | V9 Crypto | Verifier check uses AES-GCM decrypt of fixed plaintext — treat failure as opaque (`VerifierMismatchError`); do not branch on partial plaintext; consumers must not log verifier ciphertext next to candidate keys |
+
+| Threat                                                                    | ASVS theme           | Mitigation                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **API misuse** (e.g. sealing raw key material without contextual binding) | V5 Input / V9 Crypto | Prefer contextual seal APIs (`sealContextualKey` / `openContextualKey`); treat low-level `sealBytes` as advanced; fail closed on wire parse                                                                                                                                                                                                                                            |
+| **Key material logging / stringification**                                | V8 Data protection   | No console logging of secrets in package code; export wipe helpers (`zeroSensitiveBytes`); never put key bytes in thrown messages                                                                                                                                                                                                                                                      |
+| **Wire-format confusion / prefix stripping**                              | V5 Input validation  | Strict prefix + keyId + canonical encoding checks; fail closed on invalid envelopes; contextual open fails with `CONTEXT_MISMATCH` on scope/resource/kind drift                                                                                                                                                                                                                        |
+| **Argon2 parameter handling / downgrade**                                 | V2 Auth / V9 Crypto  | Export strong `DEFAULT_KDF_PARAMS`; callers must **persist and reuse stored params** for verify — never invent weaker client-side params for unlock                                                                                                                                                                                                                                    |
+| **Supply-chain confusion**                                                | V14 Config           | Locked npm name `@drvillo/webcrypto-seal`; public MIT repo; **pin exact versions** in consumers (e.g. `"0.1.0"`); releases are built in CI and published with **npm provenance** via OIDC Trusted Publishing (no long-lived tokens); dependency install scripts disabled (`ignore-scripts`); deps pinned + `--frozen-lockfile` in CI; `pnpm audit` gate; no download postinstall hooks |
+| **WASM / CSP blocking**                                                   | V14 Config           | Root entry lazy-loads `libsodium-wrappers` WASM. Browser consumers that seal/open need CSP `'wasm-unsafe-eval'` (not broad `'unsafe-eval'`). Prefer `./wire` on the server to avoid WASM entirely                                                                                                                                                                                      |
+| **Timing on verifier compare**                                            | V9 Crypto            | Verifier check uses AES-GCM decrypt of fixed plaintext — treat failure as opaque (`VerifierMismatchError`); do not branch on partial plaintext; consumers must not log verifier ciphertext next to candidate keys                                                                                                                                                                      |
+
+
+
 
 ## Contextual binding
 
-`openContextualKey` binds opened key material to caller-supplied `scopeId` + `resourceId` + `kind`. The JSON wire field for scope remains **`vaultId`** (frozen). Wrong context → `SealedBoxError` with code `CONTEXT_MISMATCH` (fail closed). This is a crypto binding, not an authorization decision.
+`openContextualKey` binds opened key material to caller-supplied `scopeId` + `resourceId` + `kind`. The JSON wire field for scope remains `vaultId` (frozen). Wrong context → `SealedBoxError` with code `CONTEXT_MISMATCH` (fail closed). This is a crypto binding, not an authorization decision.
 
 ## What this package does not do
 
@@ -28,6 +32,17 @@ This package is an **encryption-scheme library** only. Product concepts (auth, s
 - Network I/O, telemetry, or analytics
 
 Consumers are responsible for authz, secret handling at rest, CSP configuration, and pinning published package versions.
+
+## Release integrity (supply chain)
+
+Every published version is built and published from CI, not from a maintainer laptop:
+
+- **Provenance:** published with `npm publish --provenance` via GitHub Actions OIDC (npm Trusted Publishing). No long-lived npm token exists to steal. Verify with `npm audit signatures` after install, or inspect the provenance/attestation on the npm package page.
+- **Reproducible install:** CI installs with `--frozen-lockfile` and `--ignore-scripts`; dependency lifecycle scripts are disabled repo-wide via `.npmrc`.
+- **Pinned dependencies:** runtime deps are pinned exact; GitHub Actions are pinned to commit SHAs; Dependabot proposes reviewed bumps for both npm and Actions.
+- **Gates:** CI runs typecheck, unit + browser tests, `pnpm audit --audit-level=high`, CodeQL, and `npm pack --dry-run` to confirm the tarball matches the `files` allowlist.
+
+**Consumer guidance:** pin an exact version, run `npm audit signatures` (or `pnpm audit`) in your own CI, and treat any release lacking provenance as suspect.
 
 ## Reporting
 

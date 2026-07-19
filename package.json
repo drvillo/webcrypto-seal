@@ -8,6 +8,10 @@
   "engines": {
     "node": ">=20"
   },
+  "packageManager": "pnpm@10.29.3",
+  "pnpm": {
+    "onlyBuiltDependencies": []
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -54,7 +58,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@noble/hashes": "^2.0.1",
+    "@noble/hashes": "2.2.0",
     "libsodium-wrappers": "0.8.4"
   },
   "devDependencies": {

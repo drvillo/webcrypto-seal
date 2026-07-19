@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@noble/hashes':
-        specifier: ^2.0.1
+        specifier: 2.2.0
         version: 2.2.0
       libsodium-wrappers:
         specifier: 0.8.4
