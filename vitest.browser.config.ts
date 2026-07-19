@@ -9,6 +9,9 @@ const resolvedChromiumExecutablePath =
     : chromiumExecutablePath
 
 export default defineConfig({
+  optimizeDeps: {
+    include: ['@noble/hashes/argon2.js'],
+  },
   test: {
     globals: true,
     include: ['test/browser/**/*.test.ts'],
