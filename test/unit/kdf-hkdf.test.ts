@@ -71,4 +71,13 @@ describe('kdf / hierarchical', () => {
     expect(a).toEqual(b)
     expect(a.length).toBe(32)
   }, 30000)
+
+  it('deriveMasterKey and deriveChildKey diverge for same salt bytes', async () => {
+    const salt = generateSalt()
+    const mkSalt = generateSalt()
+    const v1 = await deriveMasterKey(testPassword, salt, testKdfParams)
+    const mk = await deriveMasterKey(testPassword, mkSalt, testKdfParams)
+    const v2 = await deriveChildKey(mk, salt)
+    expect(v1).not.toEqual(v2)
+  }, 30000)
 })

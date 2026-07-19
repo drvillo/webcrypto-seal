@@ -50,6 +50,22 @@ describe('aes-gcm / verifier', () => {
     await expect(decryptPayload(encrypted, generateDek())).rejects.toThrow()
   })
 
+  it('encryptPayload produces different ciphertexts for the same plaintext and key', async () => {
+    const plaintext = new TextEncoder().encode('Test message')
+    const dek = generateDek()
+    const encrypted1 = await encryptPayload(plaintext, dek)
+    const encrypted2 = await encryptPayload(plaintext, dek)
+    expect(encrypted1.nonce).not.toEqual(encrypted2.nonce)
+    expect(encrypted1.ciphertext).not.toEqual(encrypted2.ciphertext)
+  })
+
+  it('generateDek produces 32 random bytes', () => {
+    const a = generateDek()
+    const b = generateDek()
+    expect(a.length).toBe(32)
+    expect(a).not.toEqual(b)
+  })
+
   it('verifies correct key and rejects wrong key with VerifierMismatchError', async () => {
     const params = { memory: 1024, time: 1, parallelism: 1 }
     const salt = new Uint8Array(16).fill(7)
