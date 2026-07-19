@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "description": "Bit-for-bit v3 wire-format compatibility locks for @drvillo/browser-seal-crypto-asymmetric extraction. Disposable test vectors only — never production vault material.",
+    "generated_from": "webapp/src/lib/crypto/{sealed-box,vault-crypto,client-crypto}.ts",
+    "generated_at": "2026-07-19T09:41:29.957Z"
+  },
+  "prefixes": {
+    "PUBLIC_KEY_PREFIX": "v3.x25519.",
+    "SEALED_DEK_PREFIX": "v3.sb1.",
+    "ENCRYPTED_PRIVATE_KEY_PREFIX": "v3.a256gcm."
+  },
+  "domain_separators": {
+    "hkdf_info_utf8": "1bridge-vault-kek-v1",
+    "hkdf_info_hex": "316272696467652d7661756c742d6b656b2d7631",
+    "hkdf_info_base64": "MWJyaWRnZS12YXVsdC1rZWstdjE=",
+    "verifier_utf8": "1bridge-vault-verifier-v1",
+    "verifier_hex": "316272696467652d7661756c742d76657269666965722d7631",
+    "verifier_base64": "MWJyaWRnZS12YXVsdC12ZXJpZmllci12MQ=="
+  },
+  "kdf": {
+    "DEFAULT_KDF_PARAMS": {
+      "memory": 65536,
+      "time": 12,
+      "parallelism": 4,
+      "dkLen": 32
+    },
+    "argon2id_vector": {
+      "password": "golden-vector-disposable-password-v1",
+      "salt_hex": "00112233445566778899aabbccddeeff",
+      "params": {
+        "memory": 65536,
+        "time": 12,
+        "parallelism": 4,
+        "dkLen": 32
+      },
+      "master_key_hex": "385a0c648ba1e55aa1ce7402f04242aaaf7c2f04135729a9030ed00c902343f9"
+    }
+  },
+  "hkdf": {
+    "master_key_hex": "385a0c648ba1e55aa1ce7402f04242aaaf7c2f04135729a9030ed00c902343f9",
+    "salt_hex": "ffeeddccbbaa99887766554433221100",
+    "info_utf8": "1bridge-vault-kek-v1",
+    "child_key_hex": "bd0eb7ae50fb99381befaa257fd6c9f647ac0200f5c359aa7f8ff0ad5c85b85e"
+  },
+  "contextual_json": "{\"v\":1,\"kind\":\"document-dek\",\"vaultId\":\"vault_golden_fixture_001\",\"resourceId\":\"doc_golden_fixture_001\",\"key\":\"AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA\"}",
+  "contextual_json_object": {
+    "v": 1,
+    "kind": "document-dek",
+    "vaultId": "vault_golden_fixture_001",
+    "resourceId": "doc_golden_fixture_001",
+    "key": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA"
+  },
+  "sealed_envelope": {
+    "envelope": "v3.sb1.mp5CdyQPS3lk39DwXkIiZ-4fZ1rw_fruccH4W5KgNc4.lV0Z5m3Kwa3Ujui_ZpgffhQ_pzqKFUCT4UoqAkdiMXr4LlnEkHPZ5mU7Y7HxhIgiqkJGkGED3mSyJ0U1AjpBORR6t2ogMaasFtPNQ7bjgRSg4YP88S-sc9W8u8nrTajKtHL1ZvXFk-G37Yuzm2DhZp2tFTovHzMSlYeW_2akhFWjuo0ecOt_AducuUF0CPy9SOJ7er4OM8qxfK8PNEwFrFCwBjaf0SCgs97zCLAnCk719RrUZw6k8B0RjoLKnSK98AJQ1cN5ev6F_Lp3",
+    "key_id": "mp5CdyQPS3lk39DwXkIiZ-4fZ1rw_fruccH4W5KgNc4",
+    "public_key_envelope": "v3.x25519.sy5DHuHYyJ-reRux9ExNwhQN7jeLYVmzmf2apHJnUzM",
+    "private_key_hex": "3102c47466c83fd2af30587831a8d0bdeecf70cb1172cb4bc353931292bca0c3",
+    "plaintext_key_hex": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+    "vault_id": "vault_golden_fixture_001",
+    "resource_id": "doc_golden_fixture_001",
+    "kind": "document-dek",
+    "format_sealed_dek_envelope": "v3.sb1.mp5CdyQPS3lk39DwXkIiZ-4fZ1rw_fruccH4W5KgNc4.7iV5tGBpsbrhjuB4SYk-t9v8VGrveuY6rzdbKqk5mXe8LWMxZ5orCKmzNyDt6dgObX_Ru4Knb8w-mzkao6pdwuGM6i_IGDM3RWuZWQYvXFBFRTutV9VWag95-XR3R6BflZAEuS-ScCK7_Ji71L5UEGKSI0tZQ0lu7Kf5TNn-oLdWoDPGTHCKfbUQxMuuJg9ed3gmcGLlImgAzGHxmwk8_Jd_H4ncEr9_nyxrwfmFfbC0-aUpTb4vk46aDvFKP5DnjYvtYMhZeQBNhS8q"
+  },
+  "file_pack": {
+    "plaintext_hex": "676f6c64656e2d66696c652d7061636b2d706c61696e746578742d7631",
+    "dek_hex": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899",
+    "packed_hex": "01a883e08e1fe296389f9c13557dbfe0f919756a8b4d2249663a20eead4df872c6cfdd86a68b19ba14c434c052ef975a0dc99a7aa1ee010cdb",
+    "ciphertext_len": 29,
+    "nonce_len": 12,
+    "tag_len": 16,
+    "packed_len": 57,
+    "length_rule": "packed.length === ciphertext.length + 12 + 16 (ciphertext ‖ nonce(12) ‖ tag(16))",
+    "checksum_algorithm": "SHA-256 lowercase hex of packed ciphertext bytes",
+    "checksum_hex": "aff43d742565b2fdacca6457ddfb9b77b3dd2aafbdc13091af2bafd67f46d4f2"
+  },
+  "kinds": {
+    "note": "Consumer-supplied wire values — package treats kind as opaque string; fixtures lock 1Bridge bytes.",
+    "document_dek": "document-dek",
+    "signing_lsk": "signing-lsk"
+  },
+  "secret_wrap": {
+    "hkdf_info_utf8": "lsk-wrap",
+    "vendor_secret_hex": "deadbeefcafebabe0123456789abcdefdeadbeefcafebabe0123456789abcdef",
+    "salt_hex": "11223344556677889900aabbccddeeff",
+    "lsk_hex": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+    "nonce_hex": "5aaf1fa856a5e79a1f966110",
+    "ciphertext_tag_hex": "59c7e358f4d46e1810c7a59e1482358345e218e717437d531869df204b553a97541eeac0a8ff87cc9b6a5f03b4b3ddf1",
+    "note": "ciphertext_tag_hex is ciphertext ‖ tag (AES-GCM); nonce is 12 bytes"
+  },
+  "encoding_edge": {
+    "input_hex": "000fbf",
+    "standard_base64_with_plus_slash": "AA+/",
+    "canonical_base64url": "AA-_",
+    "large_input_len": 8209,
+    "large_input_hex_prefix": "031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112",
+    "large_standard_base64": "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",
+    "note": "toBase64Url replaces +→- /→_ and strips =; uint8ArrayToBase64 chunks at 8192 for large arrays"
+  },
+  "verifier_pack": {
+    "nonce_ciphertext_tag_hex": "0726456483a2c1e0ff1e3d5c7b9ab9d8f71635547392b1d0ef0e2d4c6b8aa9c8e7062544",
+    "standard_base64": "ByZFZIOiweD/Hj1ce5q52PcWNVRzkrHQ7w4tTGuKqcjnBiVE",
+    "note": "Verifier packing uses standard base64 (uint8ArrayToBase64), not base64url"
+  },
+  "checksum": {
+    "packed_hex": "01a883e08e1fe296389f9c13557dbfe0f919756a8b4d2249663a20eead4df872c6cfdd86a68b19ba14c434c052ef975a0dc99a7aa1ee010cdb",
+    "sha256_lowercase_hex": "aff43d742565b2fdacca6457ddfb9b77b3dd2aafbdc13091af2bafd67f46d4f2"
+  }
+}
