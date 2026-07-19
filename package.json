@@ -1,7 +1,7 @@
 {
-  "name": "@drvillo/browser-seal-crypto-asymmetric",
+  "name": "@drvillo/webcrypto-seal",
   "version": "0.1.0",
-  "description": "Dual-runtime asymmetric sealed-box crypto primitives (browser + Node ≥20) — encryption scheme only",
+  "description": "Web Crypto sealed-box primitives for 1bridge.xyz (browser + Node ≥20) — encryption scheme only",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -46,8 +46,10 @@
     "x25519",
     "aes-gcm",
     "argon2",
+    "webcrypto",
     "browser",
-    "node"
+    "node",
+    "1bridge"
   ],
   "author": "",
   "license": "MIT",
@@ -67,8 +69,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/drvillo/browser-seal-crypto-asymmetric.git"
+    "url": "git+https://github.com/drvillo/webcrypto-seal.git"
   },
-  "homepage": "https://github.com/drvillo/browser-seal-crypto-asymmetric#readme",
-  "bugs": "https://github.com/drvillo/browser-seal-crypto-asymmetric/issues"
+  "homepage": "https://github.com/drvillo/webcrypto-seal#readme",
+  "bugs": "https://github.com/drvillo/webcrypto-seal/issues"
 }

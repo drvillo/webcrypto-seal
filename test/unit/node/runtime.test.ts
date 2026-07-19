@@ -3,6 +3,6 @@ import { PACKAGE_NAME } from '../../../src/index'
 
 describe('node runtime smoke', () => {
   it('loads the package stub under Node', () => {
-    expect(PACKAGE_NAME).toBe('@drvillo/browser-seal-crypto-asymmetric')
+    expect(PACKAGE_NAME).toBe('@drvillo/webcrypto-seal')
   })
 })

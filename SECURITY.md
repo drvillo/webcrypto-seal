@@ -12,7 +12,7 @@ This package is an **encryption-scheme library** only. Product concepts (auth, s
 | **Key material logging / stringification** | V8 Data protection | No console logging of secrets in package code; export wipe helpers (`zeroSensitiveBytes`); never put key bytes in thrown messages |
 | **Wire-format confusion / prefix stripping** | V5 Input validation | Strict prefix + keyId + canonical encoding checks; fail closed on invalid envelopes; contextual open fails with `CONTEXT_MISMATCH` on scope/resource/kind drift |
 | **Argon2 parameter handling / downgrade** | V2 Auth / V9 Crypto | Export strong `DEFAULT_KDF_PARAMS`; callers must **persist and reuse stored params** for verify — never invent weaker client-side params for unlock |
-| **Supply-chain confusion** | V14 Config | Locked npm name `@drvillo/browser-seal-crypto-asymmetric`; public MIT repo; **pin exact versions** in consumers (e.g. `"0.1.0"`); `prepublishOnly` gates typecheck/test/build; no download postinstall hooks |
+| **Supply-chain confusion** | V14 Config | Locked npm name `@drvillo/webcrypto-seal`; public MIT repo; **pin exact versions** in consumers (e.g. `"0.1.0"`); `prepublishOnly` gates typecheck/test/build; no download postinstall hooks |
 | **WASM / CSP blocking** | V14 Config | Root entry lazy-loads `libsodium-wrappers` WASM. Browser consumers that seal/open need CSP `'wasm-unsafe-eval'` (not broad `'unsafe-eval'`). Prefer `./wire` on the server to avoid WASM entirely |
 | **Timing on verifier compare** | V9 Crypto | Verifier check uses AES-GCM decrypt of fixed plaintext — treat failure as opaque (`VerifierMismatchError`); do not branch on partial plaintext; consumers must not log verifier ciphertext next to candidate keys |
 

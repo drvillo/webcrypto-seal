@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Bit-for-bit v3 wire-format compatibility locks for @drvillo/browser-seal-crypto-asymmetric extraction. Disposable test vectors only — never production vault material.",
+    "description": "Bit-for-bit v3 wire-format compatibility locks for @drvillo/webcrypto-seal extraction. Disposable test vectors only — never production vault material.",
     "generated_from": "webapp/src/lib/crypto/{sealed-box,vault-crypto,client-crypto}.ts",
     "generated_at": "2026-07-19T09:41:29.957Z"
   },

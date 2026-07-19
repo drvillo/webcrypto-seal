@@ -1,7 +1,7 @@
 /**
  * Browser Argon2id worker client.
  *
- * Import from `@drvillo/browser-seal-crypto-asymmetric/argon2-worker` only in
+ * Import from `@drvillo/webcrypto-seal/argon2-worker` only in
  * browser apps. Node / CLI must use sync `deriveMasterKey` from the package root.
  *
  * On worker failure or unavailability, rejects so the caller can fall back to

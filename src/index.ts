@@ -1,9 +1,9 @@
 /**
- * @drvillo/browser-seal-crypto-asymmetric — encryption-scheme primitives.
+ * @drvillo/webcrypto-seal — encryption-scheme primitives for 1bridge.xyz.
  * Crypto-domain public API only — no product vocabulary.
  */
 
-export const PACKAGE_NAME = '@drvillo/browser-seal-crypto-asymmetric'
+export const PACKAGE_NAME = '@drvillo/webcrypto-seal'
 
 export {
   HIERARCHICAL_KEK_INFO,

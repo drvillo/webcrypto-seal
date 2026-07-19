@@ -1,7 +1,7 @@
 /**
  * Argon2id master-key derivation (sync @noble/hashes path).
  * Default for Node/CLI. Browser apps may optionally use
- * `@drvillo/browser-seal-crypto-asymmetric/argon2-worker` and fall back here.
+ * `@drvillo/webcrypto-seal/argon2-worker` and fall back here.
  */
 
 import { argon2id } from '@noble/hashes/argon2.js'

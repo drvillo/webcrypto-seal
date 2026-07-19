@@ -1,25 +1,25 @@
-# @drvillo/browser-seal-crypto-asymmetric
+# @drvillo/webcrypto-seal
 
-Encryption-scheme primitives for asymmetric sealed-box crypto (X25519 sealed box, Argon2id KDF, AES-GCM, contextual seals). **Not** a product SDK — no vault, document-request, share, OTP, session, or signing concepts live here.
+Encryption-scheme primitives for asymmetric sealed-box crypto (X25519 sealed box, Argon2id KDF, AES-GCM, contextual seals). Cryptographic layer for [1bridge.xyz](https://1bridge.xyz). **Not** a product SDK — no vault, document-request, share, OTP, session, or signing concepts live here; those belong in 1bridge application code.
 
 ## Install
 
 ```bash
-pnpm add @drvillo/browser-seal-crypto-asymmetric
-# or: npm install @drvillo/browser-seal-crypto-asymmetric
+pnpm add @drvillo/webcrypto-seal
+# or: npm install @drvillo/webcrypto-seal
 ```
 
 Requires **Node ≥20** (global Web Crypto + `btoa`/`atob`). Same APIs are used in the browser.
 
-## Dual runtime
+## Runtime support
 
-Despite the `browser-` name prefix (naming consistency with sibling `@drvillo/browser-*` packages), this library targets **browser and Node ≥20** as first-class consumers. Offline Node / CLI tools that seal and open 1Bridge-compatible ciphertext are an intended use case — the prefix is naming-only.
+This library is the cryptographic layer for [1bridge.xyz](https://1bridge.xyz). It targets **browser and Node ≥20** as first-class consumers via Web Crypto and standard base64 APIs. Offline Node / CLI tools that seal and open 1Bridge-compatible ciphertext are an intended use case.
 
 | Entry | Runtime | Notes |
 |-------|---------|-------|
-| `@drvillo/browser-seal-crypto-asymmetric` | Browser + Node ≥20 | Full scheme (lazy-loads libsodium WASM for seal/open) |
-| `@drvillo/browser-seal-crypto-asymmetric/wire` | Browser + Node ≥20 | **Parse-only**, WASM-free envelope helpers for server / SSR |
-| `@drvillo/browser-seal-crypto-asymmetric/argon2-worker` | Browser only | Optional Argon2id Web Worker client |
+| `@drvillo/webcrypto-seal` | Browser + Node ≥20 | Full scheme (lazy-loads libsodium WASM for seal/open) |
+| `@drvillo/webcrypto-seal/wire` | Browser + Node ≥20 | **Parse-only**, WASM-free envelope helpers for server / SSR |
+| `@drvillo/webcrypto-seal/argon2-worker` | Browser only | Optional Argon2id Web Worker client |
 
 - **Seal/open under Node:** libsodium WASM works headless in Node ≥20 (no browser DOM required). Offline tools can round-trip contextual seals without a window.
 - **Seal/open in the browser:** CSP must allow `'wasm-unsafe-eval'` (not broad `'unsafe-eval'`). Prefer the WASM-free `./wire` subpath on the server / SSR so Node never loads sodium.
@@ -38,7 +38,7 @@ import {
   createVerifier,
   verifyWithVerifier,
   DEFAULT_KDF_PARAMS,
-} from '@drvillo/browser-seal-crypto-asymmetric'
+} from '@drvillo/webcrypto-seal'
 
 const salt = crypto.getRandomValues(new Uint8Array(16))
 const master = await deriveMasterKey(password, salt, DEFAULT_KDF_PARAMS)
@@ -121,8 +121,8 @@ These byte values are **immutable** — changing them breaks existing ciphertext
 Browser apps can offload Argon2id to a classic Web Worker:
 
 ```ts
-import { deriveMasterKeyInWorker, terminateArgon2Worker } from '@drvillo/browser-seal-crypto-asymmetric/argon2-worker'
-import { deriveMasterKey } from '@drvillo/browser-seal-crypto-asymmetric'
+import { deriveMasterKeyInWorker, terminateArgon2Worker } from '@drvillo/webcrypto-seal/argon2-worker'
+import { deriveMasterKey } from '@drvillo/webcrypto-seal'
 
 async function derive(password: string, salt: Uint8Array, params: KdfParams) {
   try {

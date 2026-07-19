@@ -34,8 +34,8 @@ describe('node offline consumer', () => {
   })
 
   it('parse-only via /wire path before any seal', () => {
-    // Package consumers import `@drvillo/browser-seal-crypto-asymmetric/wire`
-    expect('@drvillo/browser-seal-crypto-asymmetric/wire').toContain('/wire')
+    // Package consumers import `@drvillo/webcrypto-seal/wire`
+    expect('@drvillo/webcrypto-seal/wire').toContain('/wire')
     const publicKey = crypto.getRandomValues(new Uint8Array(32))
     const envelope = formatPublicKey(publicKey)
     expect(parsePublicKey(envelope)).toEqual(publicKey)
