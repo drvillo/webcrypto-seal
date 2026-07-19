@@ -98,7 +98,8 @@ export async function sealBytes(plaintext: Uint8Array, publicKey: Uint8Array): P
     throw new SealedBoxError('PAYLOAD_TOO_LARGE', 'Plaintext exceeds sealed-box limit.')
   }
   const sodium = await getSodium()
-  return normalizeBytes(sodium.crypto_box_seal(plaintext, publicKey))
+  // Copy into a fresh ArrayBuffer — jsdom TextEncoder views can trip libsodium type checks.
+  return normalizeBytes(sodium.crypto_box_seal(normalizeBytes(plaintext), publicKey))
 }
 
 export async function openSealedBytes(

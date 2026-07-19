@@ -1,6 +1,6 @@
 /**
  * @drvillo/browser-seal-crypto-asymmetric — encryption-scheme primitives.
- * Contextual seal / file envelope land in Task 3.2.
+ * Crypto-domain public API only — no product vocabulary.
  */
 
 export const PACKAGE_NAME = '@drvillo/browser-seal-crypto-asymmetric'
@@ -65,3 +65,20 @@ export {
   parseEncryptedPrivateKey,
   validatePublicKeyFingerprint,
 } from './sealed-box.js'
+
+export {
+  sealContextualKey,
+  openContextualKey,
+  type SealContextualKeyInput,
+  type OpenContextualKeyInput,
+} from './contextual-seal.js'
+
+export {
+  packCiphertextEnvelope,
+  unpackCiphertextEnvelope,
+  encryptBytesForSealedUpload,
+  decryptBytesFromSealedUpload,
+  type EncryptBytesForSealedUploadInput,
+  type EncryptBytesForSealedUploadResult,
+  type DecryptBytesFromSealedUploadInput,
+} from './file-envelope.js'
