@@ -15,14 +15,18 @@ export default defineConfig({
           name: 'jsdom',
           environment: 'jsdom',
           include: ['test/unit/**/*.test.ts'],
-          exclude: ['test/unit/node/**', 'node_modules/**'],
+          exclude: [
+            'test/unit/node/**',
+            'test/unit/node-offline.test.ts',
+            'node_modules/**',
+          ],
         },
       },
       {
         test: {
           name: 'node',
           environment: 'node',
-          include: ['test/unit/node/**/*.test.ts'],
+          include: ['test/unit/node/**/*.test.ts', 'test/unit/node-offline.test.ts'],
           exclude: ['node_modules/**'],
         },
       },
