@@ -17,6 +17,11 @@ updates:
           - patch
     # Crypto deps are pinned exact on purpose; still allow Dependabot to propose
     # bumps (reviewed manually) but keep them out of the batched dev group.
+    ignore:
+      # tsup's DTS path (rollup-plugin-dts) breaks on TypeScript 7+.
+      # Stay on ^5 until tsup supports TS 7 declaration emit.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     labels:
       - dependencies
 
