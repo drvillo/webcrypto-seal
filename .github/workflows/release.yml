@@ -46,9 +46,11 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      # Trusted Publishing requires a recent npm (>= 11.5.1) for OIDC exchange.
+      # Trusted Publishing requires npm >= 11.5.1 for OIDC exchange.
+      # Pin to npm@11: npm@latest (12+) needs Node ^22.22 / ^24.15, but this
+      # job stays on Node 20 to match package engines.
       - name: Upgrade npm for Trusted Publishing
-        run: npm install -g npm@latest
+        run: npm install -g npm@11
 
       # With a Trusted Publisher configured on npmjs.com for this repo+workflow,
       # no token is needed and provenance is attached automatically.
