@@ -14,7 +14,7 @@ Requires **Node ≥20** (global Web Crypto + `btoa`/`atob`). Same APIs are used 
 ## Runtime support
 
 This library is the cryptographic layer for [1bridge.xyz](https://1bridge.xyz). It targets **browser and Node ≥20** as first-class consumers via Web Crypto and standard base64 APIs.   
-  
+
 Allows developing offline Node / CLI tools that seal and open 1Bridge-compatible ciphertext.
 
 
@@ -105,22 +105,6 @@ Example consumer values used by 1Bridge (documented here only — **not** packag
 - `signing-lsk` — signing link secret key sealed to an owner public key
 
 Any other stable string works for offline tools; mismatch on open throws `CONTEXT_MISMATCH`.
-
-## Wire compatibility locks
-
-These byte values are **immutable** — changing them breaks existing ciphertext:
-
-
-| Lock                         | Value / rule                                                      |
-| ---------------------------- | ----------------------------------------------------------------- |
-| Hierarchical HKDF info       | UTF-8 `1bridge-vault-kek-v1`                                      |
-| Verifier plaintext           | UTF-8 `1bridge-vault-verifier-v1`                                 |
-| Secret-wrap HKDF info        | UTF-8 `lsk-wrap`                                                  |
-| Contextual JSON field        | Wire field is `vaultId` even when TypeScript params use `scopeId` |
-| Public key prefix            | `v3.x25519.`                                                      |
-| Sealed key prefix            | `v3.sb1.`                                                         |
-| Encrypted private key prefix | `v3.a256gcm.`                                                     |
-
 
 
 
