@@ -64,9 +64,9 @@
   "devDependencies": {
     "@types/node": "^26.1.1",
     "@vitest/browser-playwright": "^4.0.18",
-    "happy-dom": "^20.4.0",
+    "happy-dom": "^20.11.1",
     "jsdom": "^29.1.1",
-    "playwright": "^1.58.0",
+    "playwright": "^1.62.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
     "vitest": "^4.0.18"
