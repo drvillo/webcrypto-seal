@@ -32,6 +32,12 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    groups:
+      # CodeQL init/analyze must share one pinned SHA; separate PRs break the
+      # action's required version consistency check.
+      codeql:
+        patterns:
+          - "github/codeql-action/*"
     labels:
       - dependencies
       - github-actions
